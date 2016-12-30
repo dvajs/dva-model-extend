@@ -1,6 +1,6 @@
 {
   "name": "dva-model-extend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Utility method to extend dva model.",
   "main": "lib/index.js",
   "scripts": {
