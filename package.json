@@ -4,7 +4,7 @@
   "description": "Utility method to extend dva model.",
   "main": "lib/index.js",
   "files": [
-    "lib",
+    "lib"
   ],
   "scripts": {
     "prepublish": "babel src --out-dir lib",
