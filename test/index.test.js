@@ -76,4 +76,129 @@ describe('modelExtend', () => {
     assert.ok(Array.isArray(res.state));
     assert.strictEqual(res.state.length, 0);
   });
+
+  it('should log 2 times of state overwritten log', () => {
+    modelExtend({
+      state: {
+        name: 'Benjy',
+      },
+    }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of subscriptions overwritten log', () => {
+    modelExtend({
+      subscriptions: {
+        name: 'Benjy',
+      },
+    }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+      }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of effects overwritten log', () => {
+    modelExtend({
+      effects: {
+        name: 'Benjy',
+      },
+    }, {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of reducers overwritten log', () => {
+    modelExtend({
+      reducers: {
+        name: 'Benjy',
+      },
+    }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log all overwritten log', () => {
+    modelExtend({
+      subscriptions: {
+        name: 'Benjy',
+      },
+    }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+      }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      },
+      {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      },
+      {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
 });

@@ -1,71 +1,53 @@
-export default function modelExtend(...models) {
-  const f = (arr, key, count) => {
-    if (arr.indexOf(key) === -1) {
-      arr.push(key);
+const check = (origin, cache, count) => {
+  for (let key in origin) {
+    if (cache.indexOf(key) === -1) {
+      cache.push(key);
     } else {
-      !counts[count] && (counts[count] = {});
-      counts[count][key] ? counts[count][key]++ : counts[count][key] = 1;
+      count[key] ? count[key]++ : count[key] = 1;
     }
   }
-  const counts = {};
-  const base = {
-    state: {},
-    subscriptions: {},
-    effects: {},
-    reducers: {},
-  };
-  let stateCache = [],
-    namespaceCache = [],
-    subscriptionsCache = [],
-    effectsCache = [],
-    reducersCache = [];
+}
+
+const log = (model, constitute, count) => {
+  let logCount = 0;
+  for (let key in count) {
+    if (!logCount) {
+      console.warn(`Please note that some of the attributes are inherited in the ${model.namespace} / ${constitute}:`);
+    }
+    logCount++;
+    console.warn(`-> ${key} be overwritten ${count[key]} time(s).`);
+  }
+}
+
+export default function modelExtend(...models) {
+  const
+    base = { state: {}, subscriptions: {}, effects: {}, reducers: {}, },
+    stateCache = [], stateCount = {},
+    subscriptionsCache = [], subscriptionsCount = {},
+    effectsCache = [], effectsCount = {},
+    reducersCache = [], reducersCount = {};
 
   const model = models.reduce((acc, extend) => {
-    if (typeof extend.state === 'object' && !Array.isArray(extend.state)) {
-      for (let key in extend.state) {
-        f(stateCache, key, 'stateCount');
-      }
-    }
-    for (let key in extend.subscriptions) {
-      f(subscriptionsCache, key, 'subscriptionsCount');
-    }
-    for (let key in extend.effects) {
-      f(effectsCache, key, 'effectsCount');
-    }
-    for (let key in extend.reducers) {
-      f(reducersCache, key, 'reducersCount');
-    }
+
     acc.namespace = extend.namespace;
     if (typeof extend.state === 'object' && !Array.isArray(extend.state)) {
+      check(extend.state, stateCache, stateCount)
       Object.assign(acc.state, extend.state);
     } else if ('state' in extend) {
       acc.state = extend.state;
     }
+    check(extend.subscriptions, subscriptionsCache, subscriptionsCount)
     Object.assign(acc.subscriptions, extend.subscriptions);
+    check(extend.effects, effectsCache, effectsCount)
     Object.assign(acc.effects, extend.effects);
+    check(extend.reducers, reducersCache, reducersCount)
     Object.assign(acc.reducers, extend.reducers);
     return acc;
   }, base);
 
-  if (counts['stateCount']) {
-    for (let key in counts['stateCount']) {
-      console.warn(`model: ${model.namespace} state attr: ${key} be overwritten: ${counts['stateCount'][key]} time(s).`);
-    }
-  }
-  if (counts['subscriptionsCount']) {
-    for (let key in counts['subscriptionsCount']) {
-      console.warn(`model: ${model.namespace} subscriptions attr: ${key} be overwritten: ${counts['subscriptionsCount'][key]} time(s).`);
-    }
-  }
-  if (counts['effectsCount']) {
-    for (let key in counts['effectsCount']) {
-      console.warn(`model: ${model.namespace} effects attr: ${key} be overwritten: ${counts['effectsCount'][key]} time(s).`);
-    }
-  }
-  if (counts['reducersCount']) {
-    for (let key in counts['reducersCount']) {
-      console.warn(`model: ${model.namespace} reducers attr: ${key} be overwritten: ${counts['reducersCount'][key]} time(s).`);
-    }
-  }
+  log(model, 'state', stateCount)
+  log(model, 'subscriptions', subscriptionsCount)
+  log(model, 'effects', effectsCount)
+  log(model, 'reducers', reducersCount)
   return model;
 };
