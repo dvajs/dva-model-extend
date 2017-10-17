@@ -5,24 +5,24 @@ const modelExtend = require('../lib').default;
 
 describe('modelExtend', () => {
   it('should support multi inheritance', () => {
-    function keyup() {}
-    function *focus() {}
-    function updateState() {}
+    function keyup() { }
+    function* focus() { }
+    function updateState() { }
     const res = modelExtend({
       subscriptions: {
         keyup,
       },
     }, {
-      effects: {
-        focus,
-      },
-    }, {
-      namespace: 'test',
-      state: {},
-      reducers: {
-        updateState,
-      },
-    });
+        effects: {
+          focus,
+        },
+      }, {
+        namespace: 'test',
+        state: {},
+        reducers: {
+          updateState,
+        },
+      });
     assert.deepEqual(res, {
       namespace: 'test',
       state: {},
@@ -44,10 +44,10 @@ describe('modelExtend', () => {
         name: 'Benjy',
       },
     }, {
-      state: {
-        age: 18,
-      },
-    });
+        state: {
+          age: 18,
+        },
+      });
     assert.deepEqual(res.state, {
       name: 'Benjy',
       age: 18,
@@ -60,8 +60,8 @@ describe('modelExtend', () => {
         name: 'Benjy',
       },
     }, {
-      state: 18,
-    });
+        state: 18,
+      });
     assert.strictEqual(res.state, 18);
   });
 
@@ -71,9 +71,134 @@ describe('modelExtend', () => {
         name: 'Benjy',
       },
     }, {
-      state: [],
-    });
+        state: [],
+      });
     assert.ok(Array.isArray(res.state));
     assert.strictEqual(res.state.length, 0);
+  });
+
+  it('should log 2 times of state overwritten log', () => {
+    modelExtend({
+      state: {
+        name: 'Benjy',
+      },
+    }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of subscriptions overwritten log', () => {
+    modelExtend({
+      subscriptions: {
+        name: 'Benjy',
+      },
+    }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+      }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of effects overwritten log', () => {
+    modelExtend({
+      effects: {
+        name: 'Benjy',
+      },
+    }, {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log 2 times of reducers overwritten log', () => {
+    modelExtend({
+      reducers: {
+        name: 'Benjy',
+      },
+    }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
+  });
+
+  it('should log all overwritten log', () => {
+    modelExtend({
+      subscriptions: {
+        name: 'Benjy',
+      },
+    }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+      }, {
+        subscriptions: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      },
+      {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+      }, {
+        effects: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      },
+      {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        reducers: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+      }, {
+        state: {
+          name: 'Benjy',
+        },
+        namespace: 'test',
+      });
   });
 });
