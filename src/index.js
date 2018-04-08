@@ -35,7 +35,9 @@ export default function modelExtend(...models) {
   const reducersCount = {};
 
   const model = models.reduce((acc, extend) => {
-    acc.namespace = extend.namespace;
+    if(typeof extend.namespace === 'string') {
+      acc.namespace = extend.namespace;
+    }
     if (typeof extend.state === 'object' && !Array.isArray(extend.state)) {
       check(extend.state, stateCache, stateCount)
       Object.assign(acc.state, extend.state);
