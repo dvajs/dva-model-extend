@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const modelExtend = require('../lib').default;
+const expect = require('chai').expect;
 
 describe('modelExtend', () => {
   it('should support multi inheritance', () => {
@@ -37,6 +38,15 @@ describe('modelExtend', () => {
       },
     });
   });
+
+  it('should not generate namespace even if none namespace exists within any model', () => {
+    const res = modelExtend(
+      { state: { a: 1 } },
+      { state: { b: 2 } },
+      { state: { c: 3 } }
+    );
+    expect(res).to.not.include.keys('namespace')
+  })
 
   it('should merge states when they are objects', () => {
     const res = modelExtend({
