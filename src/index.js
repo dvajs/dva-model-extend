@@ -50,6 +50,8 @@ export default function modelExtend(...models) {
     Object.assign(acc.reducers, extend.reducers);
     return acc;
   }, base);
+  
+  if (!model.namespace) delete model.namespace
 
   log(model, 'state', stateCount)
   log(model, 'subscriptions', subscriptionsCount)
