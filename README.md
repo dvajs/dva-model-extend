@@ -44,7 +44,7 @@ const benjy = modelExtend(human, {
 Behaviour:
 * The `model.namespace` will be overrided by latter model.
 * `model[state|subscriptions|effects|reducers]` will be merged as `Object.assign`.
-* `model.state` will be overrided be latter model if it isn't an object.
+* `model.state` will be overridden by latter model if it isn't an object.
 
 ## License
 
