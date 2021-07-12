@@ -23,6 +23,18 @@ const log = (model, constitute, count) => {
   }
 }
 
+// 实现深拷贝的Object.assign
+const deepObjectAssign = (target, source) => {
+  try {
+    if (source) {
+      // 对source进行判空，否则JSON.parse操作会报错： Unexpected token u in JSON at position 0
+      Object.assign(target, JSON.parse(JSON.stringify(source)))
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function modelExtend(...models) {
   const base = { state: {}, subscriptions: {}, effects: {}, reducers: {}, };
   const stateCache = [];
@@ -38,7 +50,7 @@ export default function modelExtend(...models) {
     acc.namespace = extend.namespace;
     if (typeof extend.state === 'object' && !Array.isArray(extend.state)) {
       check(extend.state, stateCache, stateCount)
-      Object.assign(acc.state, extend.state);
+      deepObjectAssign(acc.state, extend.state);
     } else if ('state' in extend) {
       acc.state = extend.state;
     }
