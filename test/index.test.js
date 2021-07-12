@@ -77,6 +77,24 @@ describe('modelExtend', () => {
     assert.strictEqual(res.state.length, 0);
   });
 
+  it('should deeply merge states when they are objects', () => {
+    const originalModel = {
+      state: {
+        user: {
+          name: 'Benjy',
+        }
+      },
+    }
+    const res = modelExtend(originalModel);
+    originalModel.state.user.name = 'Yuan';
+
+    assert.deepEqual(res.state, {
+      user: {
+        name: 'Benjy',
+      }
+    });
+  });
+
   it('should log 2 times of state overwritten log', () => {
     modelExtend({
       state: {
